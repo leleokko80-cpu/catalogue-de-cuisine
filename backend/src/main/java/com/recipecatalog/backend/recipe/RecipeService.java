@@ -1,18 +1,27 @@
 package com.recipecatalog.backend.recipe;
 
 import com.recipecatalog.backend.recipe.dto.*;
+import com.recipecatalog.backend.user.User;
+import com.recipecatalog.backend.user.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RecipeService {
     private final RecipeRepository repo;
+    private final UserRepository userRepo;
 
-    public RecipeService(RecipeRepository repo) { this.repo = repo; }
+    public RecipeService(RecipeRepository repo, UserRepository userRepo) {
+        this.repo = repo;
+        this.userRepo = userRepo;
+    }
 
     @Transactional(readOnly = true)
     public List<RecipeSummaryDto> list() {
@@ -24,6 +33,30 @@ public class RecipeService {
         Recipe r = repo.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
         return toDetail(r);
+    }
+
+    @Transactional
+    public RecipeDetailDto create(CreateRecipeRequest req, Authentication auth) {
+        Recipe r = new Recipe();
+        r.setTitle(req.title().trim());
+        r.setDescription(req.description());
+        r.setImageUrl(req.imageUrl());
+        r.setPrepTimeMinutes(req.prepTimeMinutes());
+        r.setCookTimeMinutes(req.cookTimeMinutes());
+        r.setServings(req.servings());
+        r.setIngredients(new ArrayList<>(req.ingredients().stream()
+                .map(i -> new Ingredient(i.name().trim(), i.quantity())).toList()));
+        r.setSteps(new ArrayList<>(req.steps().stream().map(String::trim).toList()));
+        r.setAuthor(currentUser(auth));
+        return toDetail(repo.save(r));
+    }
+
+    /** The JWT filter (Tessnim) must set authentication.getName() = the user's email. */
+    private User currentUser(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return null; // temporary until auth is merged
+        }
+        return userRepo.findByEmail(auth.getName()).orElse(null);
     }
 
     public RecipeSummaryDto toSummary(Recipe r) {
