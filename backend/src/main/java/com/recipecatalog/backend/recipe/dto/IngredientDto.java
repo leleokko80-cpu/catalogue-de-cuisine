@@ -1,3 +1,6 @@
 package com.recipecatalog.backend.recipe.dto;
 
-public record IngredientDto(String name, String quantity) {}
+import jakarta.validation.constraints.NotBlank;
+
+public record IngredientDto(@NotBlank(message = "Ingredient name is required") String name,
+                            String quantity) {}
