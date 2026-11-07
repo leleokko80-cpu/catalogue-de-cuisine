@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RecipeListPage from './pages/RecipeListPage';
@@ -16,7 +17,14 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/recipes" element={<RecipeListPage />} />
-          <Route path="/recipes/new" element={<AddRecipePage />} />
+          <Route
+            path="/recipes/new"
+            element={
+              <ProtectedRoute>
+                <AddRecipePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/recipes/:id" element={<RecipeDetailPage />} />
         </Routes>
       </main>
