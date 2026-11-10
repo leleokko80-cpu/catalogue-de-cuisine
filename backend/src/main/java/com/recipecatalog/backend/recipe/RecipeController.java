@@ -33,4 +33,9 @@ public class RecipeController {
             Authentication authentication) {
         return service.create(request, authentication);
     }
+    @DeleteMapping("/{id}")
+@ResponseStatus(HttpStatus.NO_CONTENT)
+public void delete(@PathVariable Long id, Authentication authentication) {
+    service.delete(id, authentication);
+}
 }

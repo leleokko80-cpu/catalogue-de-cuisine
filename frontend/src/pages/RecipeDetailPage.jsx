@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import http from '../api/http';
 import FavoriteButton from '../components/FavoriteButton';
-
+import DeleteRecipeButton from '../components/DeleteRecipeButton';
 export default function RecipeDetailPage() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -36,6 +36,7 @@ export default function RecipeDetailPage() {
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <h2 style={{ margin: '1rem 0' }}>{recipe.title}</h2>
+        <DeleteRecipeButton recipeId={recipe.id} authorId={recipe.authorId} />
         <FavoriteButton recipeId={recipe.id} />
       </div>
 
