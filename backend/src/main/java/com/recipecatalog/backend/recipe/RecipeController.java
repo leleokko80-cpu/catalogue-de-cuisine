@@ -13,18 +13,24 @@ import java.util.List;
 public class RecipeController {
     private final RecipeService service;
 
-    public RecipeController(RecipeService service) { this.service = service; }
+    public RecipeController(RecipeService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public List<RecipeSummaryDto> list() { return service.list(); }
+    public List<RecipeSummaryDto> list(@RequestParam(name = "q", required = false) String q) {
+        return service.list(q);
+    }
 
     @GetMapping("/{id}")
-    public RecipeDetailDto get(@PathVariable Long id) { return service.get(id); }
+    public RecipeDetailDto get(@PathVariable Long id) {
+        return service.get(id);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RecipeDetailDto create(@Valid @RequestBody CreateRecipeRequest request,
-                                  Authentication authentication) {
+            Authentication authentication) {
         return service.create(request, authentication);
     }
 }

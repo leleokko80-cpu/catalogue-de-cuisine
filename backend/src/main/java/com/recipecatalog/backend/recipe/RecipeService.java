@@ -24,10 +24,12 @@ public class RecipeService {
     }
 
     @Transactional(readOnly = true)
-    public List<RecipeSummaryDto> list() {
-        return repo.findAll().stream().map(this::toSummary).toList();
+    public List<RecipeSummaryDto> list(String q) {
+        List<Recipe> recipes = (q == null || q.isBlank())
+                ? repo.findAll()
+                : repo.findByTitleContainingIgnoreCase(q.trim());
+        return recipes.stream().map(this::toSummary).toList();
     }
-
     @Transactional(readOnly = true)
     public RecipeDetailDto get(Long id) {
         Recipe r = repo.findById(id).orElseThrow(
@@ -51,7 +53,10 @@ public class RecipeService {
         return toDetail(repo.save(r));
     }
 
-    /** The JWT filter (Tessnim) must set authentication.getName() = the user's email. */
+    /**
+     * The JWT filter (Tessnim) must set authentication.getName() = the user's
+     * email.
+     */
     private User currentUser(Authentication auth) {
         if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
             return null; // temporary until auth is merged
