@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import http from '../api/http';
@@ -10,21 +9,18 @@ export default function RecipeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    setLoading(true);
-    setError('');
-    http
-      .get(`/recipes/${id}`)
-      .then((res) => setRecipe(res.data))
-      .catch((err) => {
-        if (err.response?.status === 404) setError('Recipe not found.');
-        else setError('Could not load the recipe. Is the backend running?');
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+ useEffect(() => {
+  http
+    .get(`/recipes/${id}`)
+    .then((res) => setRecipe(res.data))
+    .catch((err) => {
+      if (err.response?.status === 404) setError('Recipe not found.');
+      else setError('Could not load the recipe. Is the backend running?');
+    })
+    .finally(() => setLoading(false));
+}, [id]);
 
   if (loading) return <p>Loading...</p>;
-
   if (error) {
     return (
       <div>
@@ -38,13 +34,8 @@ export default function RecipeDetailPage() {
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
       <Link to="/recipes">← Back to recipes</Link>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '1rem'
-      }}>
-        <h2>{recipe.title}</h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <h2 style={{ margin: '1rem 0' }}>{recipe.title}</h2>
         <FavoriteButton recipeId={recipe.id} />
       </div>
 
