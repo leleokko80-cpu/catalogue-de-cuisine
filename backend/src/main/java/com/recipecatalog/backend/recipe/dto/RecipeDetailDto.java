@@ -6,4 +6,4 @@ import java.util.List;
 public record RecipeDetailDto(Long id, String title, String description, String imageUrl,
                               int prepTimeMinutes, int cookTimeMinutes, int servings,
                               List<IngredientDto> ingredients, List<String> steps,
-                              String authorName, LocalDateTime createdAt) {}
+                              String authorName, Long authorId, LocalDateTime createdAt) {}

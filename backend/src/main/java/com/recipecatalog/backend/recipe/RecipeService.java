@@ -73,7 +73,22 @@ public class RecipeService {
         return new RecipeDetailDto(r.getId(), r.getTitle(), r.getDescription(), r.getImageUrl(),
                 r.getPrepTimeMinutes(), r.getCookTimeMinutes(), r.getServings(),
                 r.getIngredients().stream().map(i -> new IngredientDto(i.getName(), i.getQuantity())).toList(),
-                List.copyOf(r.getSteps()), authorName(r), r.getCreatedAt());
+                List.copyOf(r.getSteps()), authorName(r),
+                r.getAuthor() == null ? null : r.getAuthor().getId(), r.getCreatedAt());
+    }
+    
+    @Transactional
+    public void delete(Long id, Authentication auth) {
+        Recipe r = repo.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+        User current = currentUser(auth);
+        if (current == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required");
+        }
+        if (r.getAuthor() == null || !r.getAuthor().getId().equals(current.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only delete your own recipes");
+        }
+        repo.delete(r);
     }
 
     private String authorName(Recipe r) {
