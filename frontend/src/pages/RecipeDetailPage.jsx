@@ -1,6 +1,8 @@
+
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import http from '../api/http';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
@@ -22,6 +24,7 @@ export default function RecipeDetailPage() {
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
+
   if (error) {
     return (
       <div>
@@ -34,7 +37,17 @@ export default function RecipeDetailPage() {
   return (
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
       <Link to="/recipes">← Back to recipes</Link>
-      <h2>{recipe.title}</h2>
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '1rem'
+      }}>
+        <h2>{recipe.title}</h2>
+        <FavoriteButton recipeId={recipe.id} />
+      </div>
+
       <div style={{ color: '#666', marginBottom: '1rem' }}>
         by {recipe.authorName} · {new Date(recipe.createdAt).toLocaleDateString()}
       </div>

@@ -1,6 +1,8 @@
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import http from '../api/http';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function RecipeListPage() {
   const [recipes, setRecipes] = useState([]);
@@ -17,6 +19,7 @@ export default function RecipeListPage() {
 
   if (loading) return <p>Loading recipes...</p>;
   if (error) return <p style={{ color: 'crimson' }}>{error}</p>;
+
   if (recipes.length === 0) {
     return (
       <div>
@@ -41,6 +44,7 @@ export default function RecipeListPage() {
             key={r.id}
             to={`/recipes/${r.id}`}
             style={{
+              position: 'relative',
               border: '1px solid #ddd',
               borderRadius: 8,
               overflow: 'hidden',
@@ -48,6 +52,10 @@ export default function RecipeListPage() {
               color: 'inherit',
             }}
           >
+            <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+              <FavoriteButton recipeId={r.id} />
+            </div>
+
             {r.imageUrl ? (
               <img
                 src={r.imageUrl}
@@ -68,6 +76,7 @@ export default function RecipeListPage() {
                 🍽️
               </div>
             )}
+
             <div style={{ padding: '0.75rem' }}>
               <h3 style={{ margin: '0 0 0.5rem' }}>{r.title}</h3>
               <div style={{ fontSize: '0.85rem', color: '#666' }}>
