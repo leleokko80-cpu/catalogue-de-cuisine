@@ -1,0 +1,30 @@
+.fav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.fav-btn:hover {
+  color: #c0392b;
+}
+
+.fav-btn--on {
+  color: #c0392b;
+}
+
+.fav-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.fav-btn:focus-visible {
+  outline: 2px solid #2f6f4f;
+  outline-offset: 2px;
+}
