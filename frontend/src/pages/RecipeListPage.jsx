@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import http from '../api/http';
 import FavoriteButton from '../components/FavoriteButton';
 import SearchBar from '../components/SearchBar';
+import Alert from '../components/Alert';
 
 export default function RecipeListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,8 +51,8 @@ export default function RecipeListPage() {
       <h2>Recipes</h2>
       <SearchBar value={input} onChange={setInput} />
 
-      {loading && <p>Loading recipes...</p>}
-      {error && <p style={{ color: 'crimson' }}>{error}</p>}
+      {loading && <p className="muted">Loading recipes...</p>}
+      {error && <Alert type="error">{error}</Alert>}
 
       {!loading && !error && recipes.length === 0 && (
         <p>
@@ -76,6 +77,7 @@ export default function RecipeListPage() {
           {recipes.map((r) => (
             <Link
               key={r.id}
+              className="recipe-card"
               to={`/recipes/${r.id}`}
               style={{
                 position: 'relative',
@@ -97,23 +99,13 @@ export default function RecipeListPage() {
                   style={{ width: '100%', height: 150, objectFit: 'cover', display: 'block' }}
                 />
               ) : (
-                <div
-                  style={{
-                    height: 150,
-                    background: '#eee',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '2rem',
-                  }}
-                >
-                  🍽️
-                </div>
+                <div className="recipe-placeholder">No image</div>
               )}
+
               <div style={{ padding: '0.75rem' }}>
                 <h3 style={{ margin: '0 0 0.5rem' }}>{r.title}</h3>
-                <div style={{ fontSize: '0.85rem', color: '#666' }}>
-                  ⏱ {r.prepTimeMinutes + r.cookTimeMinutes} min · by {r.authorName}
+                <div className="muted" style={{ fontSize: '0.85rem' }}>
+                  {r.prepTimeMinutes + r.cookTimeMinutes} min · by {r.authorName}
                 </div>
               </div>
             </Link>

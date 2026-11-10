@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
@@ -10,22 +10,37 @@ export default function Navbar() {
     navigate('/login');
   }
 
+  const initial = (user?.name || '?').trim().charAt(0).toUpperCase();
+
   return (
-    <nav style={{ display: 'flex', gap: '1rem', padding: '1rem', borderBottom: '1px solid #ddd', alignItems: 'center' }}>
-      <Link to="/recipes">Recipes</Link>
-      <Link to="/recipes/new">Add recipe</Link>
-      <span style={{ marginLeft: 'auto' }} />
-      {isAuthenticated ? (
-        <>
-          <span>Bonjour, {user?.name}</span>
-          <button type="button" onClick={handleLogout}>Se déconnecter</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </>
-      )}
-    </nav>
+    <header className="navbar">
+      <div className="navbar-inner">
+        <Link to="/recipes" className="navbar-brand">
+          Catalogue<span> de Cuisine</span>
+        </Link>
+
+        <nav className="navbar-links">
+          <NavLink to="/recipes" end>Recipes</NavLink>
+          <NavLink to="/recipes/new">Add recipe</NavLink>
+        </nav>
+
+        <div className="navbar-user">
+          {isAuthenticated ? (
+            <>
+              <span className="navbar-avatar" aria-hidden="true">{initial}</span>
+              <span className="navbar-name">{user?.name}</span>
+              <button type="button" className="btn btn-sm" onClick={handleLogout}>
+                Se déconnecter
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-sm">Login</Link>
+              <Link to="/register" className="btn btn-sm btn-primary">Register</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
   );
 }

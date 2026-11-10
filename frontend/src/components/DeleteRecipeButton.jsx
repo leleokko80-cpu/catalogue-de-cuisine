@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import http from '../api/http';
 import { useAuth } from '../context/AuthContext';
+import ConfirmDialog from './ConfirmDialog';
 
 export default function DeleteRecipeButton({ recipeId, authorId }) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
   if (!user || authorId == null || user.id !== authorId) return null;
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this recipe? This cannot be undone.')) return;
     setBusy(true);
     setError('');
     try {
@@ -24,12 +25,26 @@ export default function DeleteRecipeButton({ recipeId, authorId }) {
     }
   };
 
+  const handleCancel = () => {
+    setOpen(false);
+    setError('');
+  };
+
   return (
-    <div style={{ margin: '0.5rem 0' }}>
-      <button type="button" onClick={handleDelete} disabled={busy} style={{ color: 'crimson' }}>
-        {busy ? 'Deleting...' : '🗑 Delete recipe'}
+    <>
+      <button type="button" className="btn btn-danger" onClick={() => setOpen(true)}>
+        Delete
       </button>
-      {error && <div style={{ color: 'crimson' }}>{error}</div>}
-    </div>
+      <ConfirmDialog
+        open={open}
+        title="Delete this recipe?"
+        message="This action cannot be undone."
+        confirmLabel={busy ? 'Deleting...' : 'Delete'}
+        busy={busy}
+        error={error}
+        onConfirm={handleDelete}
+        onCancel={handleCancel}
+      />
+    </>
   );
 }
