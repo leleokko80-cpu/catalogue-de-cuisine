@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import http from '../api/http';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
@@ -8,18 +9,16 @@ export default function RecipeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    setLoading(true);
-    setError('');
-    http
-      .get(`/recipes/${id}`)
-      .then((res) => setRecipe(res.data))
-      .catch((err) => {
-        if (err.response?.status === 404) setError('Recipe not found.');
-        else setError('Could not load the recipe. Is the backend running?');
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+ useEffect(() => {
+  http
+    .get(`/recipes/${id}`)
+    .then((res) => setRecipe(res.data))
+    .catch((err) => {
+      if (err.response?.status === 404) setError('Recipe not found.');
+      else setError('Could not load the recipe. Is the backend running?');
+    })
+    .finally(() => setLoading(false));
+}, [id]);
 
   if (loading) return <p>Loading...</p>;
   if (error) {
@@ -34,7 +33,12 @@ export default function RecipeDetailPage() {
   return (
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
       <Link to="/recipes">← Back to recipes</Link>
-      <h2>{recipe.title}</h2>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <h2 style={{ margin: '1rem 0' }}>{recipe.title}</h2>
+        <FavoriteButton recipeId={recipe.id} />
+      </div>
+
       <div style={{ color: '#666', marginBottom: '1rem' }}>
         by {recipe.authorName} · {new Date(recipe.createdAt).toLocaleDateString()}
       </div>

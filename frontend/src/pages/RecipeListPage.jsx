@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import http from '../api/http';
+import FavoriteButton from '../components/FavoriteButton';
 import SearchBar from '../components/SearchBar';
 
 export default function RecipeListPage() {
@@ -25,6 +26,7 @@ export default function RecipeListPage() {
   // Load the recipes whenever the search in the URL changes
   useEffect(() => {
     let cancelled = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError('');
     http
@@ -76,6 +78,7 @@ export default function RecipeListPage() {
               key={r.id}
               to={`/recipes/${r.id}`}
               style={{
+                position: 'relative',
                 border: '1px solid #ddd',
                 borderRadius: 8,
                 overflow: 'hidden',
@@ -83,6 +86,10 @@ export default function RecipeListPage() {
                 color: 'inherit',
               }}
             >
+              <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+                <FavoriteButton recipeId={r.id} />
+              </div>
+
               {r.imageUrl ? (
                 <img
                   src={r.imageUrl}
