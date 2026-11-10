@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import http from '../api/http';
 import FavoriteButton from '../components/FavoriteButton';
 import DeleteRecipeButton from '../components/DeleteRecipeButton';
+import Alert from '../components/Alert';
 export default function RecipeDetailPage() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -24,7 +25,7 @@ export default function RecipeDetailPage() {
   if (error) {
     return (
       <div>
-        <p style={{ color: 'crimson' }}>{error}</p>
+        <Alert type="error">{error}</Alert>
         <Link to="/recipes">← Back to recipes</Link>
       </div>
     );
@@ -34,15 +35,17 @@ export default function RecipeDetailPage() {
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
       <Link to="/recipes">← Back to recipes</Link>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <h2 style={{ margin: '1rem 0' }}>{recipe.title}</h2>
-        <DeleteRecipeButton recipeId={recipe.id} authorId={recipe.authorId} />
-        <FavoriteButton recipeId={recipe.id} />
-      </div>
+      <div className="page-header">
+  <h2>{recipe.title}</h2>
+  <div className="page-actions">
+    <DeleteRecipeButton recipeId={recipe.id} authorId={recipe.authorId} />
+    <FavoriteButton recipeId={recipe.id} />
+  </div>
+</div>
 
-      <div style={{ color: '#666', marginBottom: '1rem' }}>
-        by {recipe.authorName} · {new Date(recipe.createdAt).toLocaleDateString()}
-      </div>
+<div className="muted" style={{ marginBottom: '1rem' }}>
+  by {recipe.authorName} · {new Date(recipe.createdAt).toLocaleDateString()}
+</div>
 
       {recipe.imageUrl && (
         <img

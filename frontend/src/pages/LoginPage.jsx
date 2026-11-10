@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { apiErrorMessage, EMAIL_REGEX } from "./authUtils";
 import "./auth.css";
+import Alert from "../components/Alert";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -40,12 +41,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="auth-page">
+    <div className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit} noValidate>
         <h1 className="auth-title">Se connecter</h1>
         <p className="auth-subtitle">Accédez à votre espace et ajoutez vos recettes.</p>
 
-        {error && <p className="auth-error" role="alert">{error}</p>}
+        {error && <Alert type="error">{error}</Alert>}
 
         <label className="auth-label" htmlFor="login-email">Email</label>
         <input
@@ -75,6 +76,6 @@ export default function LoginPage() {
           Pas encore de compte ? <Link to="/register">Créer un compte</Link>
         </p>
       </form>
-    </main>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <main style={{ padding: '1rem' }}>
+      <main className="container">
         <Routes>
           <Route path="/" element={<Navigate to="/recipes" replace />} />
           <Route path="/login" element={<LoginPage />} />
