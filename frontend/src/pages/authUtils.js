@@ -1,4 +1,4 @@
-// Transforme une erreur axios en message lisible (français) pour l'utilisateur.
+
 export function apiErrorMessage(err, fallback = "Une erreur est survenue. Réessayez.") {
   const status = err?.response?.status;
   if (!err?.response) return "Impossible de joindre le serveur. Vérifiez que le backend est lancé.";

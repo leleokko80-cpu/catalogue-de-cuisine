@@ -1,0 +1,326 @@
+.mayo-dock {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.mayo-fab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  background: linear-gradient(135deg, #c2410c, #ea580c);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(194, 65, 12, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mayo-fab:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 34px rgba(194, 65, 12, 0.45);
+}
+
+.mayo-fab-bubble {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+.mayo-chef-svg {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff7ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: mayo-bob 3s ease-in-out infinite;
+}
+
+@keyframes mayo-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.mayo-panel {
+  width: min(390px, calc(100vw - 32px));
+  height: min(540px, calc(100vh - 110px));
+  background: #ffffff;
+  border: 1px solid #f1e4d8;
+  border-radius: 20px;
+  box-shadow: 0 22px 50px rgba(16, 24, 40, 0.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: mayo-pop 0.2s ease-out;
+}
+
+@keyframes mayo-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.mayo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #7c2d12, #c2410c);
+  color: #fff;
+}
+
+.mayo-header-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mayo-avatar-mini {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff7ed;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+}
+
+.mayo-status {
+  font-size: 0.74rem;
+  opacity: 0.88;
+}
+
+.mayo-close {
+  border: none;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mayo-chips {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #fff9f4;
+  border-bottom: 1px solid #f3e8dd;
+  overflow-x: auto;
+}
+
+.mayo-chip {
+  white-space: nowrap;
+  border: 1px solid #fed7aa;
+  background: #fff;
+  color: #9a3412;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mayo-chip:hover {
+  background: #ffedd5;
+}
+
+.mayo-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fcfaf7;
+}
+
+.mayo-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 90%;
+}
+
+.mayo-msg--user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.mayo-msg--bot {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.mayo-bubble {
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+.mayo-msg--user .mayo-bubble {
+  background: #c2410c;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.mayo-msg--bot .mayo-bubble {
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #efe4da;
+  border-bottom-left-radius: 4px;
+}
+
+.mayo-typing {
+  font-style: italic;
+  color: #6b7280;
+}
+
+.mayo-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.mayo-recipe-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  background: #fff;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.mayo-recipe-pill:hover {
+  transform: translateX(3px);
+  border-color: #c2410c;
+  text-decoration: none;
+}
+
+.mayo-recipe-pill img {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mayo-recipe-title {
+  font-weight: 700;
+  font-size: 0.83rem;
+  color: #7c2d12;
+}
+
+.mayo-recipe-meta {
+  font-size: 0.74rem;
+  color: #6b7280;
+}
+
+.mayo-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid #efe4da;
+  background: #fff;
+}
+
+.mayo-input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.88rem;
+}
+
+.mayo-input-row button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #c2410c;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mayo-input-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mayo-context-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  background: #fdf6ef;
+  border-bottom: 1px solid #f1e4d8;
+  font-size: 0.76rem;
+}
+
+.mayo-context-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-weight: 600;
+  max-width: 195px;
+}
+
+.mayo-context-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mayo-context-pill button {
+  border: none;
+  background: none;
+  color: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.mayo-budget-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.mayo-budget-inline input {
+  width: 58px;
+  padding: 2px 6px;
+  border: 1px solid #e5d5c5;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  text-align: center;
+}

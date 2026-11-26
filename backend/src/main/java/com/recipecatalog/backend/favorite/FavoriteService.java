@@ -2,6 +2,8 @@ package com.recipecatalog.backend.favorite;
 
 import com.recipecatalog.backend.recipe.Recipe;
 import com.recipecatalog.backend.recipe.RecipeRepository;
+import com.recipecatalog.backend.recipe.RecipeService;
+import com.recipecatalog.backend.recipe.dto.RecipeSummaryDto;
 import com.recipecatalog.backend.user.User;
 import com.recipecatalog.backend.user.UserRepository;
 import java.util.List;
@@ -17,16 +19,19 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
 
     public FavoriteService(FavoriteRepository favoriteRepository,
                            UserRepository userRepository,
-                           RecipeRepository recipeRepository) {
+                           RecipeRepository recipeRepository,
+                           RecipeService recipeService) {
         this.favoriteRepository = favoriteRepository;
         this.userRepository = userRepository;
         this.recipeRepository = recipeRepository;
+        this.recipeService = recipeService;
     }
 
-    /** Idempotent : si la recette est déjà en favori, ne fait rien. 404 si la recette n'existe pas. */
+   
     public void add(String email, Long recipeId) {
         User user = currentUser(email);
         Recipe recipe = recipeRepository.findById(recipeId)
@@ -50,6 +55,12 @@ public class FavoriteService {
 
     public List<Long> favoriteIds(String email) {
         return favoriteRepository.findRecipeIdsByUser(currentUser(email));
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecipeSummaryDto> favoriteRecipes(String email) {
+        List<Recipe> favorites = favoriteRepository.findRecipesByUserOrderByCreatedAtDesc(currentUser(email));
+        return recipeService.toSummaries(favorites);
     }
 
     private User currentUser(String email) {

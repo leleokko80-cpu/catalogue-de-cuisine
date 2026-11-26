@@ -30,8 +30,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/chat").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/recipes/normalize-ingredient").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/recipes/**").permitAll()
-                .anyRequest().authenticated())   // dont POST /api/recipes
+                .anyRequest().authenticated())
             .exceptionHandling(e -> e.authenticationEntryPoint((req, res, ex) -> {
                 res.setStatus(401);
                 res.setContentType("application/json");

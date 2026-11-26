@@ -15,8 +15,20 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     @Query("select f.recipe.id from Favorite f where f.user = :user order by f.createdAt desc")
     List<Long> findRecipeIdsByUser(@Param("user") User user);
 
+    @Query("select f.recipe from Favorite f where f.user = :user order by f.createdAt desc")
+    List<Recipe> findRecipesByUserOrderByCreatedAtDesc(@Param("user") User user);
+
+    @Query("select f.recipe.id, count(f) from Favorite f group by f.recipe.id")
+    List<Object[]> findAllFavoriteCounts();
+
+    long countByRecipeId(Long recipeId);
+
     // Appelé depuis FavoriteService.remove (méthode @Transactional)
     @Modifying
     @Query("delete from Favorite f where f.user = :user and f.recipe.id = :recipeId")
     void deleteByUserAndRecipeId(@Param("user") User user, @Param("recipeId") Long recipeId);
+
+    @Modifying
+    @Query("delete from Favorite f where f.recipe.id = :recipeId")
+    void deleteByRecipeId(@Param("recipeId") Long recipeId);
 }
