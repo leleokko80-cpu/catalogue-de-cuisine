@@ -29,5 +29,23 @@ public record CreateRecipeRequest(
         List<@Valid IngredientDto> ingredients,
 
         @NotEmpty(message = "Add at least one step")
-        List<@NotBlank(message = "Steps cannot be empty") String> steps
+        List<@NotBlank(message = "Steps cannot be empty") String> steps,
+
+        @Size(max = 40, message = "Category is too long")
+        String category,
+
+        @Size(max = 500, message = "Fun note must be at most 500 characters")
+        String funNote,
+
+        @Size(max = 30, message = "Budget level is too long")
+        String budgetLevel,
+
+        @DecimalMin(value = "0.0", message = "Estimated cost cannot be negative")
+        Double estimatedCostTnd,
+
+        @Size(max = 500, message = "Dietary tags too long")
+        String dietaryTags,
+
+        @Size(max = 500, message = "Allergens too long")
+        String allergens
 ) {}

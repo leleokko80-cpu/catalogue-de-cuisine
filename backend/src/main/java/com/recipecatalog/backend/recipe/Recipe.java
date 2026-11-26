@@ -1,6 +1,6 @@
 package com.recipecatalog.backend.recipe;
-import com.recipecatalog.backend.user.User;
 
+import com.recipecatalog.backend.user.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +19,23 @@ public class Recipe {
     private int prepTimeMinutes;
     private int cookTimeMinutes;
     private int servings;
+
+    @Column(length = 40)
+    private String category = "PLATS";
+
+    @Column(length = 500)
+    private String funNote;
+
+    @Column(length = 30)
+    private String budgetLevel = "MODERATE";
+
+    private Double estimatedCostTnd;
+
+    @Column(length = 500)
+    private String dietaryTags;
+
+    @Column(length = 500)
+    private String allergens;
 
     @ElementCollection
     @CollectionTable(name = "recipe_ingredients")
@@ -50,6 +67,18 @@ public class Recipe {
     public void setCookTimeMinutes(int v) { this.cookTimeMinutes = v; }
     public int getServings() { return servings; }
     public void setServings(int servings) { this.servings = servings; }
+    public String getCategory() { return category == null || category.isBlank() ? "PLATS" : category; }
+    public void setCategory(String category) { this.category = category; }
+    public String getFunNote() { return funNote; }
+    public void setFunNote(String funNote) { this.funNote = funNote; }
+    public String getBudgetLevel() { return budgetLevel == null || budgetLevel.isBlank() ? "MODERATE" : budgetLevel; }
+    public void setBudgetLevel(String budgetLevel) { this.budgetLevel = budgetLevel; }
+    public Double getEstimatedCostTnd() { return estimatedCostTnd; }
+    public void setEstimatedCostTnd(Double estimatedCostTnd) { this.estimatedCostTnd = estimatedCostTnd; }
+    public String getDietaryTags() { return dietaryTags; }
+    public void setDietaryTags(String dietaryTags) { this.dietaryTags = dietaryTags; }
+    public String getAllergens() { return allergens; }
+    public void setAllergens(String allergens) { this.allergens = allergens; }
     public List<Ingredient> getIngredients() { return ingredients; }
     public void setIngredients(List<Ingredient> ingredients) { this.ingredients = ingredients; }
     public List<String> getSteps() { return steps; }

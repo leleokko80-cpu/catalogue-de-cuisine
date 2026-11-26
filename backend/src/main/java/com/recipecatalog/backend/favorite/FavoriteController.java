@@ -1,5 +1,6 @@
 package com.recipecatalog.backend.favorite;
 
+import com.recipecatalog.backend.recipe.dto.RecipeSummaryDto;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -36,5 +37,10 @@ public class FavoriteController {
     @GetMapping("/favorites/ids")
     public List<Long> ids(Authentication authentication) {
         return favoriteService.favoriteIds(authentication.getName());
+    }
+
+    @GetMapping("/favorites")
+    public List<RecipeSummaryDto> list(Authentication authentication) {
+        return favoriteService.favoriteRecipes(authentication.getName());
     }
 }
